@@ -9,6 +9,11 @@ packages = [{include = "planto_project"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2.3"
+djangorestframework = "^3.14.0"
+mypy = "^1.4.1"
+django-filter = "^23.2"
+django-extensions = "^3.2.3"
+drf-spectacular = "^0.26.3"
 
 
 [build-system]
