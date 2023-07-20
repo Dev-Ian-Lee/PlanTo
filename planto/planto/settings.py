@@ -128,3 +128,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 사용할 User Model 변경
 AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+       'authentication.backends.JWTAuthentication',
+   ],
+}

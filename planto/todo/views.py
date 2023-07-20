@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
@@ -11,9 +11,11 @@ class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
+    permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
+    renderer_classes = (UserJsonRenderer, )
     
 class Registration(generics.CreateAPIView):
     queryset = User.objects.all()

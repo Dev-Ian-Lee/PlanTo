@@ -6,12 +6,27 @@ from django.contrib.auth.password_validation import validate_password
 from authentication.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    # User의 Task 객체를 PrimaryKeyRelatedField로 연결
+    password = serializers.CharField(max_length = 128, write_only = True, required = True, validators = [validate_password])
+    
+    # User가 소유한 Task 모델(일정)을 PrimaryKeyRelatedField로 연결
     tasks = serializers.PrimaryKeyRelatedField(many = True, queryset = Task.objects.all())
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop("password", None)
+        
+        if password is not None:
+            instance.set_password(password)
+        
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+            
+        instance.save()
+        
+        return instance
 
     class Meta:
         model = get_user_model()
-        fields = ["username", "email", "tasks"]
+        fields = ["username", "email", "password", "token", "tasks"]
         
 class RegistrationSerializer(serializers.ModelSerializer):
     # django의 password validation 사용해 비밀번호 검증
