@@ -27,7 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 사용자의 jwt token을 쉽게 확인하기 위한 함수
     @property
     def token(self):
-        return self.generate_jwt_token
+        return self.generate_jwt_token()
 
     def generate_jwt_token(self):
         # token의 기간 설정
