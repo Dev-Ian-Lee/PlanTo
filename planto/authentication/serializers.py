@@ -4,12 +4,14 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.password_validation import validate_password
 from .models import User
 from todo.models import Task
+from job_announcement.models import Job
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length = 128, write_only = True, required = True, validators = [validate_password])
     
-    # User가 소유한 Task 모델(일정)을 PrimaryKeyRelatedField로 연결
+    # User가 소유한 Task 모델(일정)과 Job 모델(채용공고)을 PrimaryKeyRelatedField로 연결
     tasks = serializers.PrimaryKeyRelatedField(many = True, queryset = Task.objects.all())
+    jobs = serializers.PrimaryKeyRelatedField(many = True, queryset = Job.objects.all())
 
     def update(self, instance, validated_data):
         password = validated_data.pop("password", None)
