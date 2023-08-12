@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.conf import settings
 
 class Task(models.Model):
-    class statusType(models.TextChoices):
+    class StatusType(models.TextChoices):
         INCOMPLETE = "incomplete", "미진행"
-        ONOGOING = "ongoing", "진행 중"        
+        ONGOING = "ongoing", "진행 중"        
         COMPLETE = "complete", "완료"
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = "tasks", on_delete = models.CASCADE, null = True)
@@ -13,7 +13,7 @@ class Task(models.Model):
     description = models.TextField(null = True, blank = True)
     due_date = models.DateField(default = timezone.now().date())
     priority = models.IntegerField(null = True, blank = True)
-    status = models.CharField(choices = statusType.choices, max_length = 32, null = True, blank = True)
+    status = models.CharField(choices = StatusType.choices, max_length = 32, null = True, blank = True)
     memo = models.CharField(max_length = 255, null = True, blank = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
